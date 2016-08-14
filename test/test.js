@@ -95,4 +95,16 @@ describe('HexletAsync', () => {
       });
     });
   });
+
+  describe('#map', () => {
+    it('should work', (done) => {
+      const coll = [[1, 1, 1], [2, 2, 2], [3, 3, 3]];
+      async.map(coll, (item, callback) => {
+        callback(null, item[0]);
+      }, (err, result) => {
+        assert.deepEqual(result, [1, 2, 3]);
+        done();
+      });
+    });
+  });
 });
