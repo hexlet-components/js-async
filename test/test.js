@@ -111,7 +111,7 @@ describe('HexletAsync', () => {
   describe('#waterfall', () => {
     it('should work', (done) => {
       const functions = [
-        (callback) => callback(null, 'one', 'two'),
+        callback => callback(null, 'one', 'two'),
         (arg1, arg2, callback) => callback(null, arg2, arg1),
       ];
       async.waterfall(functions, (err, result) => {
