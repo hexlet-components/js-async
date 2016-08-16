@@ -17,7 +17,7 @@ export default (functions: [(...args: any) => void], callback: ErrorBack = noop)
       if (rest.length === 0) {
         callback(err, args);
       } else {
-        setTimeout(() => next(rest[0], rest.slice(1), args), 0);
+        setTimeout(next, 0, rest[0], rest.slice(1), args);
       }
     };
 
