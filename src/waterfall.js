@@ -1,6 +1,6 @@
 // @flow
 
-import { once, onlyOnce, noop } from './utils';
+import { onlyOnce, noop } from './utils';
 import { ErrorBack } from './declarations';
 
 export default (functions: [(...args: any) => void], callback: ErrorBack = noop) => {
@@ -8,7 +8,7 @@ export default (functions: [(...args: any) => void], callback: ErrorBack = noop)
     callback();
   }
 
-  const next = (head: (...args: any) => void, rest: [(...args: any) => void], previousResult: [mixed] = []) => {
+  const next = ([head, ...rest]: [(...args: any) => void], previousResult: [mixed]) => {
     const cb = (err, ...args) => {
       if (err) {
         callback(err, args);
@@ -17,12 +17,12 @@ export default (functions: [(...args: any) => void], callback: ErrorBack = noop)
       if (rest.length === 0) {
         callback(err, args);
       } else {
-        setTimeout(next, 0, rest[0], rest.slice(1), args);
+        setTimeout(next, 0, rest, args);
       }
     };
 
     head(...previousResult, onlyOnce(cb));
   };
 
-  next(functions[0], functions.slice(1));
+  next(functions, []);
 };
