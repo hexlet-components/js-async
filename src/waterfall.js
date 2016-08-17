@@ -6,6 +6,7 @@ import { ErrorBack } from './declarations';
 export default (functions: [(...args: any) => void], callback: ErrorBack = noop) => {
   if (functions.length === 0) {
     callback();
+    return;
   }
 
   const next = ([head, ...rest]: [(...args: any) => void], previousResult: [mixed]) => {

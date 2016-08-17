@@ -132,5 +132,11 @@ describe('HexletAsync', () => {
         done();
       });
     });
+
+    it('should work 3', (done) => {
+      async.waterfall([], () => {
+        done();
+      });
+    });
   });
 });
