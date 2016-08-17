@@ -18,6 +18,14 @@ describe('HexletAsync', () => {
         done();
       });
     });
+
+    it('should work 2', (done) => {
+      const coll = [];
+      async.each(coll, (item, callback) => {
+      }, () => {
+        done();
+      });
+    });
   });
 
   describe('#concat', () => {

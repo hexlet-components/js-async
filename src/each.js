@@ -6,9 +6,9 @@ import { ErrorBack } from './declarations';
 export default <T>(coll: [T], iteratee: (element: T, callback: ErrorBack) => void, callback: ErrorBack = noop) => {
   const oncedCallback = once(callback);
   let completed = 0;
-  const length = coll.length;
-  if (length === 0) {
+  if (coll.length === 0) {
     callback(null);
+    return
   }
 
   const iteratorCallback = (err: mixed) => {
@@ -17,7 +17,7 @@ export default <T>(coll: [T], iteratee: (element: T, callback: ErrorBack) => voi
       return;
     }
     completed++;
-    if (completed === length) {
+    if (completed === coll.length) {
       oncedCallback(null);
     }
   };
