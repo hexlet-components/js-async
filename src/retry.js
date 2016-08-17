@@ -6,6 +6,10 @@ import { ErrorBack } from './declarations';
 export default (times: number, fn: (callback: ErrorBack) => void, callback: ErrorBack = noop) => {
   let calledTimes = 0;
 
+  if (times < 1) {
+    callback();
+  }
+
   const retryAttempt = () => {
     const cb = (err, result) => {
       calledTimes++;

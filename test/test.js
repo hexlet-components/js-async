@@ -35,6 +35,18 @@ describe('HexletAsync', () => {
   describe('#retry', () => {
     it('should finish with error', (done) => {
       let calledTimes = 0;
+      async.retry(0, callback => {
+        calledTimes++;
+        callback(calledTimes);
+      }, (err, result) => {
+        // assert.deepEqual(err, 3);
+        assert.equal(calledTimes, 0);
+        done();
+      });
+    });
+
+    it('should finish with error', (done) => {
+      let calledTimes = 0;
       async.retry(3, (callback) => {
         calledTimes++;
         callback(calledTimes);
