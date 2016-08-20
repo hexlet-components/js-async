@@ -6,7 +6,7 @@ import retry from './retry';
 import waterfall from './waterfall';
 import some from './some';
 import map from './map';
-import utils from './utils';
+import * as utils from './utils';
 
 export default {
   each,
