@@ -11,7 +11,7 @@ export default <T>(coll: [T], iteratee: (element: T, callback: ErrorBack) => voi
     return
   }
 
-  const iteratorCallback = (err: mixed) => {
+  const innerCallback = (err: mixed) => {
     if (err) {
       oncedCallback(err);
       return;
@@ -22,5 +22,5 @@ export default <T>(coll: [T], iteratee: (element: T, callback: ErrorBack) => voi
     }
   };
 
-  coll.forEach(item => iteratee(item, onlyOnce(iteratorCallback)));
+  coll.forEach(item => iteratee(item, onlyOnce(innerCallback)));
 };

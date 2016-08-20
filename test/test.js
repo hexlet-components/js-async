@@ -29,12 +29,20 @@ describe('HexletAsync', () => {
   });
 
   describe('#concat', () => {
-    it('should work', (done) => {
+    it('should work', done => {
       const coll = [[1, 1, 1], [2, 2, 2], [3, 3, 3]];
       async.concat(coll, (item, callback) => {
         callback(null, item);
       }, (err, result) => {
         assert.deepEqual(result, coll.reduce((acc, item) => acc.concat(item)));
+        done();
+      });
+    });
+
+    it('should work 2', done => {
+      const coll = [];
+      async.concat(coll, (item, callback) => {
+      }, (err, result) => {
         done();
       });
     });
