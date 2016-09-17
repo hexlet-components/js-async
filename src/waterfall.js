@@ -1,15 +1,17 @@
 // @flow
 
+type Worker = (...args: any) => void;
+
 import { onlyOnce, noop } from './utils';
 import { ErrorBack } from './declarations';
 
-export default (functions: [(...args: any) => void], callback: ErrorBack = noop) => {
+export default (functions: Array<Worker>, callback: ErrorBack = noop) => {
   if (functions.length === 0) {
     callback();
     return;
   }
 
-  const next = ([head, ...rest]: [(...args: any) => void], previousResult: [mixed]) => {
+  const next = ([head, ...rest], previousResult) => {
     const cb = (err, ...args) => {
       if (err) {
         callback(err, args);
