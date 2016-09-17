@@ -6,6 +6,7 @@ import retry from './retry';
 import waterfall from './waterfall';
 import some from './some';
 import map from './map';
+import filter from './filter';
 import * as utils from './utils';
 
 export default {
@@ -16,4 +17,5 @@ export default {
   map,
   waterfall,
   utils,
+  filter,
 };

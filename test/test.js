@@ -3,14 +3,14 @@
 import { describe, it } from 'mocha';
 
 import assert from 'assert';
-import async from '../src/index';
+import hexletAsync from '../src/index';
 
 describe('HexletAsync', () => {
   describe('#each', () => {
     it('should work', (done) => {
       let result = 0;
       const coll = [1, 2, 3];
-      async.each(coll, (item, callback) => {
+      hexletAsync.each(coll, (item, callback) => {
         result += item;
         callback();
       }, () => {
@@ -21,7 +21,7 @@ describe('HexletAsync', () => {
 
     it('should work 2', (done) => {
       const coll = [];
-      async.each(coll, (item, callback) => {
+      hexletAsync.each(coll, (item) => {
       }, () => {
         done();
       });
@@ -31,7 +31,7 @@ describe('HexletAsync', () => {
   describe('#concat', () => {
     it('should work', done => {
       const coll = [[1, 1, 1], [2, 2, 2], [3, 3, 3]];
-      async.concat(coll, (item, callback) => {
+      hexletAsync.concat(coll, (item, callback) => {
         callback(null, item);
       }, (err, result) => {
         assert.deepEqual(result, coll.reduce((acc, item) => acc.concat(item)));
@@ -41,8 +41,8 @@ describe('HexletAsync', () => {
 
     it('should work 2', done => {
       const coll = [];
-      async.concat(coll, (item, callback) => {
-      }, (err, result) => {
+      hexletAsync.concat(coll, () => {
+      }, () => {
         done();
       });
     });
@@ -51,7 +51,7 @@ describe('HexletAsync', () => {
   describe('#retry', () => {
     it('should finish with error', (done) => {
       let calledTimes = 0;
-      async.retry(0, callback => {
+      hexletAsync.retry(0, callback => {
         calledTimes++;
         callback(calledTimes);
       }, (err, result) => {
@@ -63,7 +63,7 @@ describe('HexletAsync', () => {
 
     it('should finish with error', (done) => {
       let calledTimes = 0;
-      async.retry(3, (callback) => {
+      hexletAsync.retry(3, (callback) => {
         calledTimes++;
         callback(calledTimes);
       }, (err, result) => {
@@ -75,7 +75,7 @@ describe('HexletAsync', () => {
 
     it('should work', (done) => {
       let calledTimes = 0;
-      async.retry(3, (callback) => {
+      hexletAsync.retry(3, (callback) => {
         calledTimes++;
         if (calledTimes === 2) {
           callback(null, calledTimes);
@@ -93,7 +93,7 @@ describe('HexletAsync', () => {
   describe('#some', () => {
     it('should work', () => {
       const coll = [1, 2, 3];
-      async.some(coll, (item, callback) => {
+      hexletAsync.some(coll, (item, callback) => {
         callback();
       }, (err, result) => {
         assert.ok(result);
@@ -102,7 +102,7 @@ describe('HexletAsync', () => {
 
     it('should work 2', () => {
       const coll = [1, 2, 3];
-      async.some(coll, (item, callback) => {
+      hexletAsync.some(coll, (item, callback) => {
         if (item !== 2) {
           callback('error');
           return;
@@ -116,7 +116,7 @@ describe('HexletAsync', () => {
 
     it('should work 3', () => {
       const coll = [1, 2, 3];
-      async.some(coll, (item, callback) => {
+      hexletAsync.some(coll, (item, callback) => {
         callback('error');
       }, (err, result) => {
         assert.ok(!result);
@@ -127,10 +127,32 @@ describe('HexletAsync', () => {
   describe('#map', () => {
     it('should work', (done) => {
       const coll = [[1, 1, 1], [2, 2, 2], [3, 3, 3]];
-      async.map(coll, (item, callback) => {
+      hexletAsync.map(coll, (item, callback) => {
         callback(null, item[0]);
       }, (err, result) => {
         assert.deepEqual(result, [1, 2, 3]);
+        done();
+      });
+    });
+  });
+
+  describe('#filter', () => {
+    it('set 1', (done) => {
+      const coll = [1, 2, 3, 4, 5, 6, 7, 8];
+      hexletAsync.filter(coll, (item, callback) => {
+        callback(null, item % 2 === 0);
+      }, (err, result) => {
+        assert.deepEqual(result, [2, 4, 6, 8]);
+        done();
+      });
+    });
+
+    it('set 2', (done) => {
+      const coll = [];
+      hexletAsync.filter(coll, (item, callback) => {
+        callback(null, item % 2 === 0);
+      }, (err, result) => {
+        assert.deepEqual(result, []);
         done();
       });
     });
@@ -142,7 +164,7 @@ describe('HexletAsync', () => {
         callback => callback(null, 'one', 'two'),
         (arg1, arg2, callback) => callback(null, arg2, arg1),
       ];
-      async.waterfall(functions, (err, result) => {
+      hexletAsync.waterfall(functions, (err, result) => {
         assert.deepEqual(result[0], 'two');
         assert.deepEqual(result[1], 'one');
         done();
@@ -154,7 +176,7 @@ describe('HexletAsync', () => {
         callback => callback('error', 'one', 'two'),
         (arg1, arg2, callback) => callback(null, arg2, arg1),
       ];
-      async.waterfall(functions, (err, result) => {
+      hexletAsync.waterfall(functions, (err, result) => {
         assert.equal(err, 'error');
         assert.deepEqual(result, ['one', 'two']);
         done();
@@ -162,7 +184,7 @@ describe('HexletAsync', () => {
     });
 
     it('should work 3', (done) => {
-      async.waterfall([], () => {
+      hexletAsync.waterfall([], () => {
         done();
       });
     });
