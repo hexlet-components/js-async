@@ -26,6 +26,19 @@ describe('HexletAsync', () => {
         done();
       });
     });
+
+    it('should work 3', (done) => {
+      const coll = [1, 2, 3];
+      hexletAsync.each(coll, (item, callback) => {
+        if (item === 2) {
+          callback(item);
+          return;
+        }
+      }, err => {
+        assert.equal(err, 2);
+        done();
+      });
+    });
   });
 
   describe('#concat', () => {

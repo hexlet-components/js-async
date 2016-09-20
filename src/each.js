@@ -12,11 +12,11 @@ export default <T>(coll: [T], iteratee: (element: T, callback: ErrorBack) => voi
   }
 
   const innerCallback = (err: mixed) => {
+    completed++;
     if (err) {
       oncedCallback(err);
       return;
     }
-    completed++;
     if (completed === coll.length) {
       oncedCallback(null);
     }
