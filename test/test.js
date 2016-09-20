@@ -56,7 +56,7 @@ describe('HexletAsync', () => {
         callback(calledTimes);
       }, (err, result) => {
         // assert.deepEqual(err, 3);
-        assert.equal(calledTimes, 0);
+        assert.equal(calledTimes, 1);
         done();
       });
     });
@@ -67,8 +67,8 @@ describe('HexletAsync', () => {
         calledTimes++;
         callback(calledTimes);
       }, (err, result) => {
-        assert.deepEqual(err, 3);
-        assert.equal(calledTimes, 3);
+        assert.deepEqual(err, 4);
+        assert.equal(calledTimes, 4);
         done();
       });
     });
