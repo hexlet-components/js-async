@@ -18,7 +18,7 @@ describe('HexletAsync', () => {
 
     it('should work 2', (done) => {
       const coll = [];
-      hexletAsync.each(coll, (item) => {
+      hexletAsync.each(coll, () => {
       }, () => {
         done();
       });
@@ -42,7 +42,7 @@ describe('HexletAsync', () => {
       const coll = [[1, 1, 1], [2, 2, 2], [3, 3, 3]];
       hexletAsync.concat(coll, (item, callback) => {
         callback(null, item);
-      }, (err, result) => {
+      }, (_, result) => {
         expect(result).toEqual(coll.reduce((acc, item) => acc.concat(item)));
         done();
       });
@@ -63,7 +63,7 @@ describe('HexletAsync', () => {
       hexletAsync.retry(0, (callback) => {
         calledTimes += 1;
         callback(calledTimes);
-      }, (err, result) => {
+      }, () => {
         // assert.deepEqual(err, 3);
         expect(calledTimes).toBe(1);
         done();
@@ -75,7 +75,7 @@ describe('HexletAsync', () => {
       hexletAsync.retry(3, (callback) => {
         calledTimes += 1;
         callback(calledTimes);
-      }, (err, result) => {
+      }, (err) => {
         expect(err).toBe(4);
         expect(calledTimes).toBe(4);
         done();

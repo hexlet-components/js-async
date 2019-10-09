@@ -3,10 +3,14 @@
 import { once, onlyOnce, noop } from './utils';
 import { ErrorBack } from './declarations';
 
-export default <T>(coll: Array<T>, iteratee: (element: T, callback: ErrorBack) => void, callback: ErrorBack = noop) => {
+export default <T>(
+  coll: Array<T>,
+  iteratee: (element: T, callback: ErrorBack) => void,
+  callback: ErrorBack = noop,
+) => {
   const oncedCallback = once(callback);
   let completed = 0;
-  const length = coll.length;
+  const { length } = coll;
   if (length === 0) {
     callback(null, []);
   }
@@ -20,9 +24,9 @@ export default <T>(coll: Array<T>, iteratee: (element: T, callback: ErrorBack) =
     if (result) {
       mappedColl[index] = item;
     }
-    completed++;
+    completed += 1;
     if (completed === length) {
-      oncedCallback(err, mappedColl.filter(el => typeof el === 'number'));
+      oncedCallback(err, mappedColl.filter((el) => typeof el === 'number'));
     }
   };
 

@@ -1,9 +1,9 @@
 // @flow
 
-type Worker = (...args: any) => void;
-
 import { onlyOnce, noop } from './utils';
 import { ErrorBack } from './declarations';
+
+type Worker = (...args: any) => void;
 
 export default (functions: Array<Worker>, callback: ErrorBack = noop) => {
   if (functions.length === 0) {

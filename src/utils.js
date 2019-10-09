@@ -20,4 +20,4 @@ export const onlyOnce = (fn: (...args: any) => void) => {
   };
 };
 
-export const noop = (...args: any) => {};
+export const noop = () => {};
