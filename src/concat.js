@@ -10,7 +10,7 @@ export default <T>(coll: [T], fn: (item: T, callback: ErrorBack) => void, callba
       result = result.concat(y || []);
       cb(err);
     });
-  }, err => {
+  }, (err) => {
     callback(err, result);
   });
 };

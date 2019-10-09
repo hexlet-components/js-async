@@ -8,7 +8,7 @@ export default (times: number, fn: (callback: ErrorBack) => void, callback: Erro
 
   const retryAttempt = () => {
     const cb = (err, result) => {
-      calledTimes++;
+      calledTimes += 1;
       if (!err || calledTimes === times + 1) {
         callback(err, result);
         return;

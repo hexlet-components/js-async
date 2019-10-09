@@ -1,9 +1,6 @@
 // @flow
 
-import { describe, it } from 'mocha';
-
-import assert from 'assert';
-import hexletAsync from '../src/index';
+import hexletAsync from '../src';
 
 describe('HexletAsync', () => {
   describe('#each', () => {
@@ -14,14 +11,14 @@ describe('HexletAsync', () => {
         result += item;
         callback();
       }, () => {
-        assert.equal(result, 6);
+        expect(result).toBe(6);
         done();
       });
     });
 
     it('should work 2', (done) => {
       const coll = [];
-      hexletAsync.each(coll, (item) => {
+      hexletAsync.each(coll, () => {
       }, () => {
         done();
       });
@@ -32,27 +29,26 @@ describe('HexletAsync', () => {
       hexletAsync.each(coll, (item, callback) => {
         if (item === 2) {
           callback(item);
-          return;
         }
-      }, err => {
-        assert.equal(err, 2);
+      }, (err) => {
+        expect(err).toBe(2);
         done();
       });
     });
   });
 
   describe('#concat', () => {
-    it('should work', done => {
+    it('should work', (done) => {
       const coll = [[1, 1, 1], [2, 2, 2], [3, 3, 3]];
       hexletAsync.concat(coll, (item, callback) => {
         callback(null, item);
-      }, (err, result) => {
-        assert.deepEqual(result, coll.reduce((acc, item) => acc.concat(item)));
+      }, (_, result) => {
+        expect(result).toEqual(coll.reduce((acc, item) => acc.concat(item)));
         done();
       });
     });
 
-    it('should work 2', done => {
+    it('should work 2', (done) => {
       const coll = [];
       hexletAsync.concat(coll, () => {
       }, () => {
@@ -64,12 +60,12 @@ describe('HexletAsync', () => {
   describe('#retry', () => {
     it('should finish with error', (done) => {
       let calledTimes = 0;
-      hexletAsync.retry(0, callback => {
-        calledTimes++;
+      hexletAsync.retry(0, (callback) => {
+        calledTimes += 1;
         callback(calledTimes);
-      }, (err, result) => {
+      }, () => {
         // assert.deepEqual(err, 3);
-        assert.equal(calledTimes, 1);
+        expect(calledTimes).toBe(1);
         done();
       });
     });
@@ -77,11 +73,11 @@ describe('HexletAsync', () => {
     it('should finish with error', (done) => {
       let calledTimes = 0;
       hexletAsync.retry(3, (callback) => {
-        calledTimes++;
+        calledTimes += 1;
         callback(calledTimes);
-      }, (err, result) => {
-        assert.deepEqual(err, 4);
-        assert.equal(calledTimes, 4);
+      }, (err) => {
+        expect(err).toBe(4);
+        expect(calledTimes).toBe(4);
         done();
       });
     });
@@ -89,15 +85,15 @@ describe('HexletAsync', () => {
     it('should work', (done) => {
       let calledTimes = 0;
       hexletAsync.retry(3, (callback) => {
-        calledTimes++;
+        calledTimes += 1;
         if (calledTimes === 2) {
           callback(null, calledTimes);
           return;
         }
         callback(calledTimes);
       }, (err, result) => {
-        assert.equal(result, 2);
-        assert.equal(calledTimes, 2);
+        expect(result).toBe(2);
+        expect(calledTimes).toBe(2);
         done();
       });
     });
@@ -109,7 +105,7 @@ describe('HexletAsync', () => {
       hexletAsync.some(coll, (item, callback) => {
         callback();
       }, (err, result) => {
-        assert.ok(result);
+        expect(result).toBeTruthy();
       });
     });
 
@@ -123,7 +119,7 @@ describe('HexletAsync', () => {
 
         callback();
       }, (err, result) => {
-        assert.ok(result);
+        expect(result).toBeTruthy();
       });
     });
 
@@ -132,7 +128,7 @@ describe('HexletAsync', () => {
       hexletAsync.some(coll, (item, callback) => {
         callback('error');
       }, (err, result) => {
-        assert.ok(!result);
+        expect(!result).toBeTruthy();
       });
     });
   });
@@ -143,7 +139,7 @@ describe('HexletAsync', () => {
       hexletAsync.map(coll, (item, callback) => {
         callback(null, item[0]);
       }, (err, result) => {
-        assert.deepEqual(result, [1, 2, 3]);
+        expect(result).toEqual([1, 2, 3]);
         done();
       });
     });
@@ -155,7 +151,7 @@ describe('HexletAsync', () => {
       hexletAsync.filter(coll, (item, callback) => {
         callback(null, item % 2 === 0);
       }, (err, result) => {
-        assert.deepEqual(result, [2, 4, 6, 8]);
+        expect(result).toEqual([2, 4, 6, 8]);
         done();
       });
     });
@@ -165,7 +161,7 @@ describe('HexletAsync', () => {
       hexletAsync.filter(coll, (item, callback) => {
         callback(null, item % 2 === 0);
       }, (err, result) => {
-        assert.deepEqual(result, []);
+        expect(result).toEqual([]);
         done();
       });
     });
@@ -174,24 +170,25 @@ describe('HexletAsync', () => {
   describe('#waterfall', () => {
     it('should work', (done) => {
       const functions = [
-        callback => callback(null, 'one', 'two'),
+        (callback) => callback(null, 'one', 'two'),
         (arg1, arg2, callback) => callback(null, arg2, arg1),
       ];
       hexletAsync.waterfall(functions, (err, result) => {
-        assert.deepEqual(result[0], 'two');
-        assert.deepEqual(result[1], 'one');
+        const [one, two] = result;
+        expect(one).toBe('two');
+        expect(two).toBe('one');
         done();
       });
     });
 
     it('should work 2', (done) => {
       const functions = [
-        callback => callback('error', 'one', 'two'),
+        (callback) => callback('error', 'one', 'two'),
         (arg1, arg2, callback) => callback(null, arg2, arg1),
       ];
       hexletAsync.waterfall(functions, (err, result) => {
-        assert.equal(err, 'error');
-        assert.deepEqual(result, ['one', 'two']);
+        expect(err).toBe('error');
+        expect(result).toEqual(['one', 'two']);
         done();
       });
     });
