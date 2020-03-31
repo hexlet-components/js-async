@@ -1,6 +1,6 @@
 # js-async
 
-
+[![github action status](https://github.com/hexlet-components/js-async/workflows/Node%20CI/badge.svg)](https://github.com/hexlet-components/js-async/actions)
 
 ## Using
 
