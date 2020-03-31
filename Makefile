@@ -1,6 +1,8 @@
 install:
 	npm install
 
+parser: babel-eslint
+
 build:
 	rm -rf dist
 	npm run build
@@ -12,6 +14,6 @@ lint:
 	npx eslint .
 
 publish:
-	npm publish
+	npm publish --access public
 
 .PHONY: test
