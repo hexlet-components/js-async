@@ -1,11 +1,8 @@
-// @flow
+// @ts-check
 
 import { onlyOnce, noop } from './utils';
-import { ErrorBack } from './declarations';
 
-type Worker = (...args: any) => void;
-
-export default (functions: Array<Worker>, callback: ErrorBack = noop) => {
+export default (functions, callback = noop) => {
   if (functions.length === 0) {
     callback();
     return;

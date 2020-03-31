@@ -1,4 +1,4 @@
-// @flow
+// @ts-check
 
 import hexletAsync from '../src';
 
@@ -64,7 +64,6 @@ describe('HexletAsync', () => {
         calledTimes += 1;
         callback(calledTimes);
       }, () => {
-        // assert.deepEqual(err, 3);
         expect(calledTimes).toBe(1);
         done();
       });

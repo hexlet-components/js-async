@@ -1,13 +1,8 @@
-// @flow
+// @ts-check
 
 import { once, onlyOnce, noop } from './utils';
-import { ErrorBack } from './declarations';
 
-export default <T>(
-  coll: [T],
-  iteratee: (element: T, callback: ErrorBack) => void,
-  callback: ErrorBack = noop,
-) => {
+export default (coll, iteratee, callback = noop) => {
   const oncedCallback = once(callback);
   let completed = 0;
   const { length } = coll;
@@ -16,7 +11,7 @@ export default <T>(
   }
 
   const mappedColl = [];
-  const iteratorCallback = (index: number, err: mixed, result: mixed) => {
+  const iteratorCallback = (index, err, result) => {
     if (err) {
       oncedCallback(err);
       return;

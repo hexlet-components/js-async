@@ -1,9 +1,8 @@
-// @flow
+// @ts-check
 
 import { onlyOnce, noop } from './utils';
-import { ErrorBack } from './declarations';
 
-export default (times: number, fn: (callback: ErrorBack) => void, callback: ErrorBack = noop) => {
+export default (times, fn, callback = noop) => {
   let calledTimes = 0;
 
   const retryAttempt = () => {
