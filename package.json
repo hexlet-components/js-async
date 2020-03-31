@@ -8,6 +8,9 @@
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hexlet-components/js-async.git"
@@ -19,17 +22,17 @@
   },
   "homepage": "https://github.com/hexlet-components/js-async#readme",
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.3",
-    "@babel/preset-env": "^7.3.1",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.1.0",
-    "documentation": "^9.1.1",
-    "eslint": "^5.14.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jest": "^22.3.0",
-    "jest": "^24.1.0",
-    "jest-cli": "^24.1.0"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.2.4",
+    "documentation": "^12.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "jest": "^25.2.4",
+    "jest-cli": "^25.2.4"
   }
 }
