@@ -1,6 +1,6 @@
 # js-async
 
-[![Build Status](https://travis-ci.org/hexlet-components/js-async.svg?branch=master)](https://travis-ci.org/hexlet-components/js-async)
+
 
 ## Using
 

@@ -1,9 +1,8 @@
-// @flow
+// @ts-check
 
-import { ErrorBack } from './declarations';
 import each from './each';
 
-export default <T>(coll: [T], fn: (item: T, callback: ErrorBack) => void, callback: ErrorBack) => {
+export default (coll, fn, callback) => {
   let result = [];
   each(coll, (item, cb) => {
     fn(item, (err, y) => {

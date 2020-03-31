@@ -1,4 +1,4 @@
-// @flow
+// @ts-check
 
 import each from './each';
 import concat from './concat';
