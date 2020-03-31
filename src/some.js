@@ -2,6 +2,20 @@
 
 import { once, onlyOnce, noop } from './utils';
 
+/**
+ * some
+ * @example
+ * const coll = [1, 2, 3];
+ * async.some(coll, (item, callback) => {
+ *   if (item !== 2) {
+ *     callback('error');
+ *     return;
+ *   }
+ *   callback();
+ * }, (err, result) => {
+ *   console.log(result); // => true
+ * });
+ */
 export default (coll, iteratee, callback = noop) => {
   const oncedCallback = once(callback);
   let completed = 0;

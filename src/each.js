@@ -2,6 +2,22 @@
 
 import { once, onlyOnce, noop } from './utils';
 
+/**
+ * each
+ * @example
+ * const coll = [1, 2, 3];
+ * let result = 0;
+ * async.each(
+ *   coll,
+ *   (item, callback) => {
+ *     result += item;
+ *     callback();
+ *   },
+ *   () => {
+ *     console.log(result); // => 6
+ *   },
+ * );
+ */
 export default (coll, iteratee, callback = noop) => {
   const oncedCallback = once(callback);
   let completed = 0;

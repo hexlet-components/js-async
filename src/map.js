@@ -2,6 +2,16 @@
 
 import { once, onlyOnce, noop } from './utils';
 
+/**
+ * map
+ * @example
+ * const coll = [[1, 1, 1], [2, 2, 2], [3, 3, 3]];
+ * async.map(coll, (item, callback) => {
+ *   callback(null, item[0]);
+ * }, (err, result) => {
+ *   console.log(result); // => [1, 2, 3]
+ * });
+ */
 export default (coll, iteratee, callback = noop) => {
   const oncedCallback = once(callback);
   let completed = 0;
